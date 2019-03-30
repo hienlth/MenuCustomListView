@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Quản lý Sinh viên"
+        android:id="@+id/mnuQLSV"/>
+    <item android:title="Xem Danh sách"
+        android:id="@+id/mnuXemDS" >
+        <menu >
+            <item android:title="K43.CNTT.A"
+                android:id="@+id/mnuK43A"/>
+            <item android:title="K43.CNTT.C"
+                android:id="@+id/mnuK43B"/>
+            <item android:title="K43.CNTT.C"
+                android:id="@+id/mnuK43C"/>
+        </menu>
+    </item>
+    <item android:title="Thoát"
+        android:id="@+id/mnuThoat"/>
+</menu>
