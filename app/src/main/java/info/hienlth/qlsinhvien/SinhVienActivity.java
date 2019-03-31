@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -15,10 +17,12 @@ import java.util.ArrayList;
 public class SinhVienActivity extends AppCompatActivity {
 
     Button btnThem;
+    ImageButton btnClearAll;
     EditText txtMaSV, txtDiem, txtHoTen;
     ListView lvDSSinhVien;
     RadioButton rdNu;
     ArrayList<SinhVien> arrSinhVien = new ArrayList<SinhVien>();
+    MyArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,16 +30,17 @@ public class SinhVienActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sinh_vien);
 
         btnThem = (Button)findViewById(R.id.btnThem);
+        btnClearAll = (ImageButton)findViewById(R.id.btnClearAll);
         lvDSSinhVien = (ListView)findViewById(R.id.lvDSSV);
         txtMaSV = (EditText)findViewById(R.id.txtvMaSV);
         txtDiem = (EditText)findViewById(R.id.txtvDiem);
         txtHoTen = (EditText)findViewById(R.id.txtvHoTen);
         rdNu = (RadioButton)findViewById(R.id.radNu);
 
-        final  MyArrayAdapter adapter = new MyArrayAdapter(
-                SinhVienActivity.this,
-                arrSinhVien,
-                R.layout.sinhvienlayout
+        adapter = new MyArrayAdapter(
+                this,
+                R.layout.sinhvienlayout,
+                arrSinhVien
         );
         lvDSSinhVien.setAdapter(adapter);
         //Thêm sự kiện click button Thêm
@@ -61,6 +66,36 @@ public class SinhVienActivity extends AppCompatActivity {
                 arrSinhVien.add(sv);
                 //cập nhật listview
                 adapter.notifyDataSetChanged();
+
+                //reset Text
+                txtMaSV.setText("");
+                txtHoTen.setText("");
+                txtDiem.setText("");
+                txtMaSV.clearFocus();
+            }
+        });
+
+        btnClearAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ta nên đi ngược danh sách, kiểm tra phần tử nào checked
+                //thì xóa đúng vị trí đó ra khỏi arrEmployee
+                for(int i = lvDSSinhVien.getChildCount() - 1; i >=0; i--)
+                {
+                    //lấy ra dòng thứ i trong ListView
+                    //Dòng thứ i sẽ có 3 phần tử: ImageView, LinerLayout, Checkbox
+                    v = lvDSSinhVien.getChildAt(i);
+                    //Ta chỉ lấy CheckBox ra kiểm tra
+                    CheckBox chk = (CheckBox) v.findViewById(R.id.chkitem);
+                    //Nếu nó Checked thì xóa ra khỏi arrEmployee
+                    if(chk.isChecked())
+                    {
+                        //xóa phần tử thứ i ra khỏi danh sách
+                        arrSinhVien.remove(i);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+
             }
         });
     }

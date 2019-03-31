@@ -3,6 +3,7 @@ package info.hienlth.qlsinhvien;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.LayoutInflaterCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyArrayAdapter extends ArrayAdapter {
+public class MyArrayAdapter extends ArrayAdapter<SinhVien> {
     Activity context = null;
     ArrayList<SinhVien> myArray = null;
     int layoutId;
@@ -36,20 +37,23 @@ public class MyArrayAdapter extends ArrayAdapter {
             TextView txtDiem = (TextView)convertView.findViewById(R.id.txtDiem);
 
             //gán giá trị
-            txtHoTen.setText(sv.getHoTen() + " =" + sv.getMaSV());
-            txtDiem.setText(sv.getDiem() + "(" + sv.XepLoai() + ")");
-//            if(sv.isGioiTinh())
-//            {
-//                ivHinh.setImageResource(R.drawable.icon_male);
-//            }
-//            else
-//                ivHinh.setImageResource(R.drawable.icon_female);
+            txtHoTen.setText(sv.getHoTen() + " - " + sv.getMaSV());
+            txtDiem.setText(sv.getDiem() + " (" + sv.XepLoai() + ")");
+            if(sv.isGioiTinh())
+            {
+                Log.i("IM", "Nữ");
+                ivHinh.setImageResource(R.drawable.icon_female);
+            }
+            else{
+                Log.i("IM", "Nam");
+                ivHinh.setImageResource(R.drawable.icon_male);
+            }
         }
 
         return convertView;
     }
 
-    public MyArrayAdapter(Activity context, ArrayList<SinhVien> myArray, int layoutId) {
+    public MyArrayAdapter(Activity context, int layoutId, ArrayList<SinhVien> myArray) {
         super(context, layoutId, myArray);
         this.context = context;
         this.myArray = myArray;
